@@ -8,6 +8,11 @@ router.get('/', function (req, res, next) {
 	res.send('api');
 });
 
+router.post('/tests', function (req, res, next) {
+	res.send('test');
+});
+
+
 //  增
 
 router.post('/columnPost', function (req, res, next) {
