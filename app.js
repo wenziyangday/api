@@ -20,8 +20,8 @@ const baseFunRouter = require('./routes/baseFun');
 
 var app = express();
 
-// const url = 'mongodb://localhost:27017/expressWen';
-const url = 'mongodb://139.196.100.86:27017/expressWen';
+const url = 'mongodb://localhost:27017/expressWen';
+// const url = 'mongodb://139.196.100.86:27017/expressWen';
 
 mongoose.connect(url, {useNewUrlParser: true}, function (err) {
 	if (err) throw err;
