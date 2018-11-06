@@ -24,7 +24,6 @@ router.post('/columnPost', function (req, res, next) {
 				message: 'no token detected in http header "Authorization"'
 			});
 		}
-
 		if (decoded) {
 			ApiModel.column.create(req.body).then(resq => {
 				if (resq) {
@@ -35,7 +34,7 @@ router.post('/columnPost', function (req, res, next) {
 					};
 					res.json(jsonS);
 				}
-			})
+			});
 		}
 	});
 });
@@ -44,17 +43,6 @@ router.post('/columnPost', function (req, res, next) {
 
 router.get('/columnGet', function (req, res, next) {
 	// 初始化数据库
-	/*for (let i = 0; i < 10; i++) {
-		ApiModel.column.create({
-			parentId: '',
-			columnName: '闻' + i,
-			enName: 'wen' + i,
-			intro: 'wens闻' + i,
-			state: 1
-		}).then(resq => {
-			console.log(resq);
-		})
-	}*/
 	ApiModel.column.find({}).then(resq => {
 		if (resq) {
 			let jsonS = {
@@ -87,7 +75,6 @@ router.post('/columnPut', function (req, res) {
 //  删
 
 router.post('/columnDelete', function (req, res) {
-	console.log(req.body);
 	ApiModel.column.remove({_id: req.body._id}).then(resq => {
 		if (resq) {
 			let jsonS = {
