@@ -43,7 +43,7 @@ router.post('/columnPost', function (req, res, next) {
 
 router.get('/columnGet', function (req, res, next) {
 	// 初始化数据库
-	ApiModel.column.find({parentId: req.query || ''}).then(resq => {
+	ApiModel.column.find({parentId: req.query.parentId || ''}).then(resq => {
 		if (resq) {
 			let jsonS = {
 				code: res.statusCode,
