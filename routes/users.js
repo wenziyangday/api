@@ -42,8 +42,7 @@ router.post('/login', function (req, res, next) {
 		userName: userName, exp: parseInt(date.getTime() / 1000)
 	}, config.jwtSecret);
 
-	// res.cookie('my-cookies', authToken);
-
+	res.cookie('my-cookies', authToken);
 
 	res.json({
 		code: 200,
