@@ -7,6 +7,8 @@
 const express = require('express');
 const router = express.Router();
 const multiparty = require('multiparty');
+const multer = require('multer');
+const uploadUrl = multer({dest: './public/files/'});
 const fs = require('fs');
 
 router.get('/', function (req, res, next) {
@@ -25,8 +27,9 @@ router.post('/upload', function (req, res, next) {
 		if (err) {
 			console.log('parse:' + err);
 		} else {
-			let inputFile = files.inputFile[0];
-			let uploadFile = inputFile.path;
+			console.log(files);
+			// let inputFile = files.inputFile[0];
+			/*let uploadFile = inputFile.path;
 			let distName = './public/files/' + inputFile.originalFilename;
 			console.log(distName);
 			fs.rename(uploadFile, distName, function (err) {
@@ -37,13 +40,22 @@ router.post('/upload', function (req, res, next) {
 					console.log('rename ok');
 					res.end("{'status':400, 'message': '上传成功！'}");
 				}
-			})
+			});*/
+			res.send({
+				code: 200,
+				message: '文件上传成功。'
+			});
 		}
 	});
-	res.send({
+});
+
+
+router.post('/uploadFile', uploadUrl.any(), function (req, res, next) {
+	res.json({
 		code: 200,
-		message: '文件上传成功。'
+		message: '接口连接成功。'
 	});
+	console.log(req.files);
 });
 
 

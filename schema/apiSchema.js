@@ -17,11 +17,18 @@ const columnSchema = new Schema({
 	state: Number,
 }, {collection: 'columns'});
 
+// todo 设置序号问题
+// todo 设置序号问题
 const infoSchema = new Schema({
-	parentId: {
+	subClassId: {
 		type: String,
 		required: true
 	},
+	baseClassId: {
+		type: String,
+		required: true
+	},
+
 	title: {
 		type: String,
 		required: true
