@@ -3,6 +3,9 @@ var express = require('express');
 var path = require('path');
 const mongoose = require('mongoose');
 const config = require('./config');
+
+const jwt = require('jsonwebtoken');
+
 //  cookie管理
 var cookieParser = require('cookie-parser');
 
@@ -20,8 +23,8 @@ const baseFunRouter = require('./routes/baseFun');
 
 var app = express();
 
-const url = 'mongodb://localhost:27017/expressWen';
-// const url = 'mongodb://139.196.100.86:27017/expressWen';
+// const url = 'mongodb://localhost:27017/expressWen';
+const url = 'mongodb://139.196.100.86:27017/expressWen';
 
 mongoose.connect(url, {useNewUrlParser: true}, function (err) {
 	if (err) throw err;
@@ -43,15 +46,38 @@ app.use(cookieParser(config.jwtSecret));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-//  设置跨域请求
+const whiteList = ['/users/login'];
 
+//  设置跨域请求 全局拦截
 app.all('*', function (req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "X-Requested-With,xToken");
 	res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
 	res.header("X-Powered-By", '3.2.1');
 	res.header("Content-Type", "application/json;charset=utf-8");
-	next();
+
+	let cookies = req.cookies['my-cookies'];
+	if (whiteList.includes(req.originalUrl)) {
+		next();
+	} else if (cookies) {
+		jwt.verify(cookies, config.jwtSecret, (err, decoded) => {
+			if (err) {
+				res.json({
+					code: 401,
+					message: 'no token detected in http header "Authorization"'
+				});
+			}
+			if (decoded) {
+				next();
+			}
+		});
+	} else {
+		res.json({
+			code: 500,
+			message: '检查是否登录成功。'
+		});
+	}
+
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
