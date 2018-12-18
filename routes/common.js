@@ -12,7 +12,7 @@ const uploadUrl = multer({dest: './public/files/'});
 const fs = require('fs');
 
 router.get('/', function (req, res, next) {
-	res.send('baseFun');
+	res.send('common');
 });
 
 router.post('/upload', function (req, res, next) {

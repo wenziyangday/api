@@ -19,7 +19,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const apiRouter = require('./routes/api');
 const roleRouter = require('./routes/role');
-const baseFunRouter = require('./routes/baseFun');
+const commonRouter = require('./routes/common');
 
 var app = express();
 
@@ -97,7 +97,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 app.use('/role', roleRouter);
-app.use('/baseFun', baseFunRouter);
+app.use('/common', commonRouter);
 
 // catch 404 and forward to error handler
 
