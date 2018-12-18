@@ -64,7 +64,7 @@ app.all('*', function (req, res, next) {
 			if (err) {
 				res.json({
 					code: 401,
-					message: 'no token detected in http header "Authorization" 师傅告诉对方'
+					message: 'no token detected in http header "Authorization"'
 				});
 			}
 			if (decoded) {
