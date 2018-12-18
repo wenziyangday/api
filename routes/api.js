@@ -12,29 +12,16 @@ router.post('/tests', function (req, res, next) {
 	res.send('test');
 });
 
-
 //  增
-
 router.post('/columnPost', function (req, res, next) {
-	let token = req.cookies['my-cookies'];
-	jwt.verify(token, config.jwtSecret, (err, decoded) => {
-		if (err) {
-			res.json({
-				code: 401,
-				message: 'no token detected in http header "Authorization"'
-			});
-		}
-		if (decoded) {
-			ApiModel.column.create(req.body).then(resq => {
-				if (resq) {
-					let jsonS = {
-						code: res.statusCode,
-						message: '新增成功',
-						data: resq
-					};
-					res.json(jsonS);
-				}
-			});
+	ApiModel.column.create(req.body).then(resq => {
+		if (resq) {
+			let jsonS = {
+				code: res.statusCode,
+				message: '新增成功',
+				data: resq
+			};
+			res.json(jsonS);
 		}
 	});
 });
@@ -42,8 +29,11 @@ router.post('/columnPost', function (req, res, next) {
 //  查
 
 router.get('/columnGet', function (req, res, next) {
+
+	let {secondClass, thirdClass} = req;
+
 	// 初始化数据库
-	ApiModel.column.find({parentId: req.query.parentId || ''}).then(resq => {
+	ApiModel.column.find({secondClass, thirdClass}).then(resq => {
 		if (resq) {
 			let jsonS = {
 				code: res.statusCode,
@@ -91,7 +81,6 @@ router.post('/columnDelete', function (req, res) {
 //  info
 
 router.post('/infoPost', function (req, res, next) {
-
 	ApiModel.info.create(req.body).then(resq => {
 		if (resq) {
 			let jsonS = {
