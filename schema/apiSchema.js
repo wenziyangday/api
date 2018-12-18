@@ -18,7 +18,7 @@ const columnSchema = new Schema({
 }, {collection: 'columns'});
 
 // todo 设置序号问题
-// todo 设置序号问题
+
 const infoSchema = new Schema({
 	subClassId: {
 		type: String,
@@ -48,7 +48,7 @@ const infoSchema = new Schema({
 		type: Date,
 		default: Date.now()
 	}
-}, {collection: 'infos'});
+}, {collection: 'info'});
 
 
 module.exports = {
