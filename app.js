@@ -23,8 +23,8 @@ const commonRouter = require('./routes/common');
 
 var app = express();
 
-const url = 'mongodb://localhost:27017/expressWen';
-// const url = 'mongodb://139.196.100.86:27017/expressWen';
+// const url = 'mongodb://localhost:27017/expressWen';
+const url = 'mongodb://139.196.100.86:27017/expressWen';
 
 mongoose.connect(url, {useNewUrlParser: true}, function (err) {
 	if (err) throw err;
@@ -46,7 +46,7 @@ app.use(cookieParser(config.jwtSecret));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-const whiteList = ['/users/login'];
+const whiteList = ['/api/users/login'];
 
 //  设置跨域请求 全局拦截
 app.all('*', function (req, res, next) {
