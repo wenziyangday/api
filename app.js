@@ -55,7 +55,7 @@ const hmac = crypto.createHmac('sha256', secret).update('').digest('hex');
 console.info(hmac, 'hmac', Date.now());
 
 
-const whiteList = ['//users/login'];
+const whiteList = ['/users/login'];
 
 //  设置跨域请求 全局拦截
 app.all('*', function (req, res, next) {
