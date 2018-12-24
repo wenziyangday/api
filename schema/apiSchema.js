@@ -1,24 +1,40 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+//  用户
 const userSchema = new Schema({
 	name: String,
 	sex: String,
-	age: Number
+	age: Number,
+	sortNum: Number,
+	state: {
+		type: Number,
+		default: 1
+	},
+	createTime: {
+		type: Date,
+		default: Date.now()
+	}
 }, {collection: 'api'});
 
 //  栏目数据结构
-
 const columnSchema = new Schema({
 	parentId: String,
 	columnName: String,
 	enName: String,
 	intro: String,
-	state: Number,
+	state: {
+		type: Number,
+		default: 1
+	},
+	sortNum: Number,
+	createTime: {
+		type: Date,
+		default: Date.now()
+	}
 }, {collection: 'columns'});
 
-// todo 设置序号问题
-
+//  信息
 const infoSchema = new Schema({
 	subClassId: {
 		type: String,
@@ -41,9 +57,10 @@ const infoSchema = new Schema({
 	filesId: String,
 	state: {
 		type: Number,
-		default: 0
+		default: 1
 	},
 	author: String,
+	sortNum: Number,
 	createTime: {
 		type: Date,
 		default: Date.now()
