@@ -47,7 +47,9 @@ router.post('/login', function (req, res, next) {
 	res.json({
 		code: 200,
 		message: 'token获取成功',
-		token: authToken
+		token: authToken,
+		url: req.originalUrl,
+		headers: req.headers,
 	});
 
 });
