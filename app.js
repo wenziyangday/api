@@ -85,7 +85,8 @@ app.all('*', function (req, res, next) {
 	} else {
 		res.json({
 			code: 500,
-			message: '检查是否登录成功。'
+			message: '检查是否登录成功。',
+			url: req.originalUrl
 		});
 	}
 
