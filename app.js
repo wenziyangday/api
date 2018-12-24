@@ -23,8 +23,8 @@ const commonRouter = require('./routes/common');
 
 var app = express();
 
-const url = 'mongodb://localhost:27017/expressWen';
-// const url = 'mongodb://139.196.100.86:27017/expressWen';
+// const url = 'mongodb://localhost:27017/expressWen';
+const url = 'mongodb://139.196.100.86:27017/expressWen';
 
 mongoose.connect(url, {useNewUrlParser: true}, function (err) {
 	if (err) throw err;
@@ -46,6 +46,15 @@ app.use(cookieParser(config.jwtSecret));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
+
+const crypto = require('crypto');
+
+const secret = '1';
+const hmac = crypto.createHmac('sha256', secret).update('').digest('hex');
+
+console.info(hmac, 'hmac', Date.now());
+
+
 const whiteList = ['/api/users/login'];
 
 //  设置跨域请求 全局拦截
@@ -56,7 +65,9 @@ app.all('*', function (req, res, next) {
 	res.header("X-Powered-By", '3.2.1');
 	res.header("Content-Type", "application/json;charset=utf-8");
 
+
 	let cookies = req.cookies['my-cookies'];
+	console.log(req.originalUrl, 6060);
 	if (whiteList.includes(req.originalUrl)) {
 		next();
 	} else if (cookies) {
