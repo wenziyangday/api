@@ -20,14 +20,18 @@ const userSchema = new Schema({
 //  栏目数据结构
 const columnSchema = new Schema({
 	parentId: String,
-	columnName: String,
+	sortNum: Number,
+	columnName: {
+		type: String,
+		required: true
+	},
 	enName: String,
 	intro: String,
 	state: {
 		type: Number,
 		default: 1
 	},
-	sortNum: Number,
+	picUrl: String,
 	createTime: {
 		type: Date,
 		default: Date.now()
@@ -36,31 +40,38 @@ const columnSchema = new Schema({
 
 //  信息
 const infoSchema = new Schema({
-	subClassId: {
-		type: String,
-		required: true
-	},
 	baseClassId: {
 		type: String,
 		required: true
 	},
-
+	subClassId: {
+		type: String,
+		required: true
+	},
+	sortNum: Number,
 	title: {
 		type: String,
 		required: true
 	},
 	subTitle: String,
-	intro: String,
-	content: String,
-	pic: String,
-	picsId: String,
-	filesId: String,
+	author: String,
 	state: {
 		type: Number,
 		default: 1
 	},
-	author: String,
-	sortNum: Number,
+	tags: Array,
+	pic: String,
+	intro: String,
+	content: String,
+	remarks: String,
+	picsId: {
+		type: Array,
+		default: [1, 2]
+	},
+	filesId: {
+		type: Array,
+		default: [1, 2]
+	},
 	createTime: {
 		type: Date,
 		default: Date.now()
@@ -68,6 +79,51 @@ const infoSchema = new Schema({
 }, {collection: 'info'});
 
 
+//  商品
+const goodSchema = new Schema({
+	baseClassId: {
+		type: String,
+		required: true
+	},
+	subClassId: {
+		type: String,
+		required: true
+	},
+	sortNum: Number,
+	title: {
+		type: String,
+		required: true
+	},
+	subTitle: String,
+	author: String,
+	state: {
+		type: Number,
+		default: 1
+	},
+	// transport: String,
+	// price: Number,
+	// size: String,
+	//
+	tags: Array,
+	pic: String,
+	intro: String,
+	content: String,
+	remarks: String,
+	picsId: {
+		type: Array,
+		default: [1, 2]
+	},
+	filesId: {
+		type: Array,
+		default: [1, 2]
+	},
+	createTime: {
+		type: Date,
+		default: Date.now()
+	}
+}, {collection: 'goods'});
+
+
 module.exports = {
-	column: columnSchema, user: userSchema, info: infoSchema
+	column: columnSchema, user: userSchema, info: infoSchema, goods: goodSchema
 };

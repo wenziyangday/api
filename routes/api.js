@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ApiModel = require('../model/apiModel');
+var ObjectId = require('mongodb').ObjectId;
 
 router.get('/', function (req, res, next) {
 	res.send('api');
@@ -28,30 +29,11 @@ router.post('/columnPost', function (req, res, next) {
 
 router.get('/columnGet', function (req, res, next) {
 
-	//  查询栏目：无条件、有条件（指定id, ）
-	let {id, parentId} = {}, obj = {};
-
-
-	if (req.body.id) {
-		id = req.body.id;
-		obj = {id}
-	} else {
-		id = '';
+	let parentId = req.query.parentId;
+	if (req.query.parentId !== '') {
+		parentId = ObjectId(req.query.parentId);
 	}
-
-	if (req.body.parentId) {
-		parentId = req.body.id;
-		obj = {parentId}
-	} else {
-		parentId = '';
-	}
-
-	if (parentId !== '' && id !== '') {
-		obj = {parentId, id}
-	}
-
-	// 初始化数据库
-	ApiModel.column.find(obj).then(resq => {
+	ApiModel.column.find({parentId}).then(resq => {
 		if (resq) {
 			let jsonS = {
 				code: res.statusCode,
@@ -96,7 +78,7 @@ router.post('/columnDelete', function (req, res) {
 	})
 });
 
-//  栏目信息新增
+//  栏目所属信息新增
 
 router.post('/infoPost', function (req, res, next) {
 	ApiModel.info.create(req.body).then(resq => {
@@ -111,10 +93,12 @@ router.post('/infoPost', function (req, res, next) {
 	})
 });
 
-//  栏目信息查询
+//  栏目所属信息查询
+
+//  todo 创建时间查询处理 时间差的问题
 
 router.get('/infoGet', function (req, res, next) {
-	ApiModel.info.find({}).then(resq => {
+	ApiModel.info.find(req.query).then(resq => {
 		if (resq) {
 			let jsonS = {
 				code: res.statusCode,

@@ -65,31 +65,29 @@ app.all('*', function (req, res, next) {
 	res.header("X-Powered-By", '3.2.1');
 	res.header("Content-Type", "application/json;charset=utf-8");
 
-	next();
-
-	// let cookies = req.cookies['my-cookies'];
-	// console.log(req.originalUrl, 6060);
-	// if (whiteList.includes(req.originalUrl)) {
-	// 	next();
-	// } else if (cookies) {
-	// 	jwt.verify(cookies, config.jwtSecret, (err, decoded) => {
-	// 		if (err) {
-	// 			res.json({
-	// 				code: 401,
-	// 				message: 'no token detected in http header "Authorization"'
-	// 			});
-	// 		}
-	// 		if (decoded) {
-	// 			next();
-	// 		}
-	// 	});
-	// } else {
-	// 	res.json({
-	// 		code: 500,
-	// 		message: '检查是否登录成功。',
-	// 		url: req.headers
-	// 	});
-	// }
+	let cookies = req.cookies['my-cookies'];
+	console.log(req.originalUrl, 6060);
+	if (whiteList.includes(req.originalUrl)) {
+		next();
+	} else if (cookies) {
+		jwt.verify(cookies, config.jwtSecret, (err, decoded) => {
+			if (err) {
+				res.json({
+					code: 401,
+					message: 'no token detected in http header "Authorization"'
+				});
+			}
+			if (decoded) {
+				next();
+			}
+		});
+	} else {
+		res.json({
+			code: 500,
+			message: '检查是否登录成功。',
+			url: req.headers
+		});
+	}
 
 });
 
@@ -108,7 +106,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/api', apiRouter);
+app.use('/wen', apiRouter);
 app.use('/role', roleRouter);
 app.use('/common', commonRouter);
 
