@@ -38,6 +38,7 @@ router.post('/login', function (req, res, next) {
 	let date = new Date();
 
 	date.setDate(date.getDate() + 1);   // 设置7天过期令牌
+
 	let authToken = jwt.sign({
 		userName: userName, exp: parseInt(date.getTime() / 1000)
 	}, config.jwtSecret);
@@ -58,7 +59,6 @@ router.post('/loginOut', function (req, res, next) {
 	//  初始化登录用户的基本信息
 	// UsersModel.create({userName: 'sAdmin', password: '123456', role: {name: '超级管理员', enName: 'sAdmin', auth: -1}});
 	res.clearCookie('my-cookies');
-
 });
 
 module.exports = router;
