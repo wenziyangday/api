@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 //  用户
 const userSchema = new Schema({
+	roleId: String,
 	name: String,
 	sex: String,
 	age: Number,
@@ -14,8 +15,51 @@ const userSchema = new Schema({
 	createTime: {
 		type: Date,
 		default: Date.now()
+	},
+	updateTime: {
+		type: Date,
+		default: Date.now()
 	}
-}, {collection: 'api'});
+}, {collection: 'user'});
+
+//  角色 todo
+const roleSchema = new Schema({
+	roleName: '',
+	roleIntro: '',
+	roleRights: '',
+	sortNum: Number,
+	state: {
+		type: Number,
+		default: 1
+	},
+	createTime: {
+		type: Date,
+		default: Date.now()
+	},
+	updateTime: {
+		type: Date,
+		default: Date.now()
+	}
+}, {collection: 'roles'});
+
+//  按钮/页面
+const buttonPageSchema = new Schema({
+	name: String,
+	pageId: String,
+	sortNum: Number,
+	state: {
+		type: Number,
+		default: 1
+	},
+	createTime: {
+		type: Date,
+		default: Date.now()
+	},
+	updateTime: {
+		type: Date,
+		default: Date.now()
+	}
+}, {collection: 'buttonPages'});
 
 //  栏目数据结构
 const columnSchema = new Schema({
@@ -33,6 +77,10 @@ const columnSchema = new Schema({
 	},
 	picUrl: String,
 	createTime: {
+		type: Date,
+		default: Date.now()
+	},
+	updateTime: {
 		type: Date,
 		default: Date.now()
 	}
@@ -75,9 +123,13 @@ const infoSchema = new Schema({
 	createTime: {
 		type: Date,
 		default: Date.now()
-	}
-}, {collection: 'info'});
+	},
+	updateTime: {
+		type: Date,
+		default: Date.now()
+	},
 
+}, {collection: 'info'});
 
 //  商品
 const goodSchema = new Schema({
@@ -120,10 +172,88 @@ const goodSchema = new Schema({
 	createTime: {
 		type: Date,
 		default: Date.now()
-	}
+	},
+	updateTime: {
+		type: Date,
+		default: Date.now()
+	},
 }, {collection: 'goods'});
 
+//  订单
+const orderSchema = new Schema({
+	orderNo: '',
+	orderName: '',
+	orderState: '',
+	orderIntro: '',
+	orderCreateMan: '',
+	orderTotalPrice: '',
+	orderSum: '',
+	orderFreight: '',   //  运费
+	sortNum: Number,
+	state: {
+		type: Number,
+		default: 1
+	},
+	createTime: {
+		type: Date,
+		default: Date.now()
+	},
+	updateTime: {
+		type: Date,
+		default: Date.now()
+	}
+}, {collection: 'orders'});
+
+//  订单商品 todo
+const orderGoodSchema = new Schema({
+	orderId: '',
+	orderGoodName: '',
+	orderGoodPrice: '',
+
+}, {collection: 'orderGoods'});
+
+//  基础信息
+const baseInfoSchema = new Schema({
+	name: '',
+	subName: '',
+	metaKeys: '',
+	metaDescription: '',
+	icpNo: ''
+}, {collection: 'baseInfo'});
+
+//  广告结构
+const adSchema = new Schema({
+	sortNum: Number,
+	state: {
+		type: Number,
+		default: 1
+	},
+	createTime: {
+		type: Date,
+		default: Date.now()
+	},
+	updateTime: {
+		type: Date,
+		default: Date.now()
+	}
+}, {collection: 'ads'});
 
 module.exports = {
-	column: columnSchema, user: userSchema, info: infoSchema, goods: goodSchema
+	users: userSchema,
+	roles: roleSchema,
+	buttonPages: buttonPageSchema,
+	columns: columnSchema,
+	info: infoSchema,
+	goods: goodSchema,
+	orders: orderSchema,
+	orderGoods: orderGoodSchema,
+	baseInfo: baseInfoSchema,
+	ads: adSchema
 };
+
+
+/*
+*
+* 对于每一个数据结构主要考虑：数据的来源、数据的存储、以及数据的出口 （增、删、改、查）
+*
+* */

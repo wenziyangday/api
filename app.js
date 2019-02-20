@@ -3,7 +3,6 @@ var express = require('express');
 var path = require('path');
 const mongoose = require('mongoose');
 const config = require('./config');
-
 const jwt = require('jsonwebtoken');
 
 //  cookie管理
@@ -46,15 +45,6 @@ app.use(cookieParser(config.jwtSecret));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-
-const crypto = require('crypto');
-
-const secret = '1';
-const hmac = crypto.createHmac('sha256', secret).update('').digest('hex');
-
-console.info(hmac, 'hmac', Date.now());
-
-
 const whiteList = ['/users/login'];
 
 //  设置跨域请求 全局拦截
@@ -66,7 +56,7 @@ app.all('*', function (req, res, next) {
 	res.header("Content-Type", "application/json;charset=utf-8");
 
 	let cookies = req.cookies['my-cookies'];
-	console.log(req.originalUrl, 6060);
+	// console.log(req, 6060);
 	if (whiteList.includes(req.originalUrl)) {
 		next();
 	} else if (cookies) {
@@ -84,8 +74,7 @@ app.all('*', function (req, res, next) {
 	} else {
 		res.json({
 			code: 500,
-			message: '检查是否登录成功。',
-			url: req.headers
+			message: '检查是否登录成功。'
 		});
 	}
 
