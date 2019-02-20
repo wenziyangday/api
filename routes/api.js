@@ -1,7 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const ApiModel = require('../model/apiModel');
-var ObjectId = require('mongodb').ObjectId;
+const ObjectId = require('mongodb').ObjectId;
+const pagingInfo = {
+	isPaging: false,
+	pageSize: 10,
+	pageNum: 1
+};
+
 
 router.get('/', function (req, res, next) {
 	res.send('api');
@@ -116,10 +122,9 @@ router.get('/countInfo', function (req, res, next) {
 router.post('/infoPost', function (req, res, next) {
 	console.log(req.body._id);
 	if (req.body._id) {
-		ApiModel.info.find({_id: req.body._id}).then(resId => {
+		ApiModel.info.find({_id: ObjectId(req.body._id)}).then(resId => {
 				if (resId) {
-					//todo
-					ApiModel.info.save(req.body).then(resq => {
+					ApiModel.info.update({_id: ObjectId(req.body._id)}, req.body).then(resq => {
 						if (resq) {
 							let jsonS = {
 								code: res.statusCode,
@@ -155,15 +160,54 @@ router.post('/infoPost', function (req, res, next) {
 
 });
 
-//  栏目所属信息查询
+//  栏目所属信息删除
+router.post('/infoDelete', function (req, res, next) {
+	console.log(req.body._id);
+	if (req.body._id) {
+		ApiModel.info.find({_id: ObjectId(req.body._id)}).then(resId => {
+				if (resId) {
+					ApiModel.info.update({_id: ObjectId(req.body._id)}, {state: '10'}).then(resq => {
+						if (resq) {
+							let jsonS = {
+								code: res.statusCode,
+								message: '修改成功',
+								data: resq
+							};
+							res.json(jsonS);
+						}
+					})
+				} else {
+					let jsonS = {
+						code: 400,
+						message: '删除失败,id 不存在',
+						data: ''
+					};
+					res.json(jsonS);
+				}
+			}
+		)
 
+	} else {
+		ApiModel.info.create(req.body).then(resq => {
+			if (resq) {
+				let jsonS = {
+					code: res.statusCode,
+					message: '新增成功',
+					data: resq
+				};
+				res.json(jsonS);
+			}
+		})
+	}
+
+});
+
+//  栏目所属信息查询
 router.get('/infoGet', function (req, res, next) {
 	let query = {};
-	if (req.query) {
-		query = {...req.query};
-	} else {
-		query = {...req.query, state: {$lt: 2}};
-	}
+
+	query = {...req.query, state: {$lt: 2}};
+	console.log(query);
 
 	ApiModel.info.find(query).then(resq => {
 		if (resq) {
