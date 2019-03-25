@@ -18,12 +18,13 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const apiRouter = require('./routes/api');
 const roleRouter = require('./routes/role');
+const columnRouter = require('./routes/column');
 const commonRouter = require('./routes/common');
 
 var app = express();
 
-// const url = 'mongodb://localhost:27017/expressWen';
-const url = 'mongodb://139.196.100.86:27017/expressWen';
+const url = 'mongodb://localhost:27017/expressWen';
+// const url = 'mongodb://139.196.100.86:27017/expressWen';
 
 mongoose.connect(url, {useNewUrlParser: true}, function (err) {
 	if (err) throw err;
@@ -45,7 +46,7 @@ app.use(cookieParser(config.jwtSecret));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-const whiteList = ['/users/login'];
+const whiteList = ['/users/login', '/common/uploadOss'];
 
 //  设置跨域请求 全局拦截
 app.all('*', function (req, res, next) {
@@ -56,7 +57,6 @@ app.all('*', function (req, res, next) {
 	res.header("Content-Type", "application/json;charset=utf-8");
 
 	let cookies = req.cookies['my-cookies'];
-	// console.log(req, 6060);
 	if (whiteList.includes(req.originalUrl)) {
 		next();
 	} else if (cookies) {
@@ -92,11 +92,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //  页面路由
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/wen', apiRouter);
+
 app.use('/role', roleRouter);
+app.use('/column', columnRouter);
+
 app.use('/common', commonRouter);
 
 // catch 404 and forward to error handler

@@ -1,14 +1,8 @@
-/**
- *
- *  用户相关的信息
- *
- **/
-
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-//  用户
-const userSchema = new Schema({
+//  栏目数据结构
+const columnSchema = new Schema({
 	pId: {
 		type: String,
 		required: true,
@@ -17,23 +11,20 @@ const userSchema = new Schema({
 	sortNum: {
 		type: Number,
 		required: true,
-		default: 0
+		default: 0,
+	},
+	columnName: {
+		type: String,
+		required: true,
+		default: ''
 	},
 	state: {
 		type: Number,
 		default: 1
 	},
-	orgId: {
-		type: String,
-		default: ''
-	},
-	orgName: {
-		type: String,
-		default: ''
-	},
-	sex: String,
-	age: Number,
-	phone: String,
+	enName: String,
+	intro: String,
+	picUrl: String,
 	createTime: {
 		type: Date,
 		default: Date.now()
@@ -42,6 +33,6 @@ const userSchema = new Schema({
 		type: Date,
 		default: Date.now()
 	}
-}, {collection: 'wen_user'});
+}, {collection: 'wen_columns'});
 
-module.exports = userSchema;
+module.exports = columnSchema;

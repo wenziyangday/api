@@ -1,39 +1,40 @@
-/**
- *
- *  用户相关的信息
- *
- **/
-
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-//  用户
-const userSchema = new Schema({
+//  组织
+const orgSchema = new Schema({
 	pId: {
 		type: String,
 		required: true,
 		default: '-1'
 	},
+	orgName: {
+		type: String,
+		required: true,
+		default: ''
+	},
 	sortNum: {
 		type: Number,
 		required: true,
-		default: 0
+		default: ''
+	},
+	roleId: {
+		type: String,
+		default: ''
+	},
+	roleName: {
+		type: String,
+		default: ''
 	},
 	state: {
 		type: Number,
 		default: 1
 	},
-	orgId: {
-		type: String,
-		default: ''
+	orgIntro: String,
+	orgRights: {
+		type: Array,
+		default: []
 	},
-	orgName: {
-		type: String,
-		default: ''
-	},
-	sex: String,
-	age: Number,
-	phone: String,
 	createTime: {
 		type: Date,
 		default: Date.now()
@@ -42,6 +43,6 @@ const userSchema = new Schema({
 		type: Date,
 		default: Date.now()
 	}
-}, {collection: 'wen_user'});
+}, {collection: 'wen_org'});
 
-module.exports = userSchema;
+module.exports = orgSchema;

@@ -1,9 +1,0 @@
-> 接口名称
-```dart in html
-url = '/api/columnGet'
-```
-
-> 需求
-```dart in html
-根据不同的id查询不同的结果：
-```

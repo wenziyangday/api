@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 //  用户
 const userSchema = new Schema({
+	parentId: {
+		type: String,
+		required: true,
+	},
 	roleId: String,
 	name: String,
 	sex: String,
@@ -24,9 +28,17 @@ const userSchema = new Schema({
 
 //  角色 todo
 const roleSchema = new Schema({
-	roleName: '',
-	roleIntro: '',
-	roleRights: '',
+	parentId: {
+		type: String,
+		required: true,
+	},
+	roleName: String,
+	roleIntro: String,
+	roleRights: {
+		type: Array,
+		default: []
+	},
+	orgId: String,
 	sortNum: Number,
 	state: {
 		type: Number,
@@ -42,8 +54,39 @@ const roleSchema = new Schema({
 	}
 }, {collection: 'roles'});
 
+//  组织
+const orgSchema = new Schema({
+	parentId: {
+		type: String,
+		required: true,
+	},
+	orgName: String,
+	orgIntro: String,
+	orgRights: {
+		type: Array,
+		default: []
+	},
+	sortNum: Number,
+	state: {
+		type: Number,
+		default: 1
+	},
+	createTime: {
+		type: Date,
+		default: Date.now()
+	},
+	updateTime: {
+		type: Date,
+		default: Date.now()
+	}
+}, {collection: 'org'});
+
 //  按钮/页面
 const buttonPageSchema = new Schema({
+	parentId: {
+		type: String,
+		required: true,
+	},
 	name: String,
 	pageId: String,
 	sortNum: Number,
@@ -63,7 +106,9 @@ const buttonPageSchema = new Schema({
 
 //  栏目数据结构
 const columnSchema = new Schema({
-	parentId: String,
+	parentId: {
+		type: String
+	},
 	sortNum: Number,
 	columnName: {
 		type: String,
@@ -86,8 +131,12 @@ const columnSchema = new Schema({
 	}
 }, {collection: 'columns'});
 
-//  信息
+//  信息（最终还是希望将该数据设计成为id，pid的形式）
 const infoSchema = new Schema({
+	parentId: {
+		type: String,
+		required: true,
+	},
 	baseClassId: {
 		type: String,
 		required: true
@@ -133,6 +182,10 @@ const infoSchema = new Schema({
 
 //  商品
 const goodSchema = new Schema({
+	parentId: {
+		type: String,
+		required: true,
+	},
 	baseClassId: {
 		type: String,
 		required: true
@@ -181,6 +234,10 @@ const goodSchema = new Schema({
 
 //  订单
 const orderSchema = new Schema({
+	parentId: {
+		type: String,
+		required: true,
+	},
 	orderNo: '',
 	orderName: '',
 	orderState: '',
@@ -214,11 +271,36 @@ const orderGoodSchema = new Schema({
 
 //  基础信息
 const baseInfoSchema = new Schema({
-	name: '',
-	subName: '',
-	metaKeys: '',
-	metaDescription: '',
-	icpNo: ''
+	name: {
+		type: String,
+		required: true
+	},
+	enName: {
+		type: String
+	},
+	meta: {
+		type: String
+	},
+	icpNo: {
+		type: String
+	},
+	copyright: {
+		type: String
+	},
+	websiteInfo: {
+		type: String
+	},
+	websiteMap: {
+		type: String
+	},
+	createTime: {
+		type: Date,
+		default: Date.now()
+	},
+	updateTime: {
+		type: Date,
+		default: Date.now()
+	}
 }, {collection: 'baseInfo'});
 
 //  广告结构
@@ -241,6 +323,7 @@ const adSchema = new Schema({
 module.exports = {
 	users: userSchema,
 	roles: roleSchema,
+	org: orgSchema,
 	buttonPages: buttonPageSchema,
 	columns: columnSchema,
 	info: infoSchema,

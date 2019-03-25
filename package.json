@@ -7,6 +7,7 @@
     "retry": "nodemon ./bin/www"
   },
   "dependencies": {
+    "ali-oss": "^6.1.0",
     "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
     "crypto": "^1.0.1",
@@ -15,6 +16,7 @@
     "express-jwt": "^5.3.1",
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.3.0",
+    "moment": "^2.24.0",
     "mongodb": "^3.1.10",
     "mongoose": "^5.2.7",
     "morgan": "~1.9.0",
